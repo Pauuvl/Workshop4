@@ -10,7 +10,8 @@ def home(request):
         movies = Movie.objects.all()
     return render(request, 'home.html', {
         'searchTerm': searchTerm,
-        'movies': movies
+        'movies': movies,
+        'name': 'Paulina Velasquez'
     })
 def about(request):
     return render(request, 'about.html')

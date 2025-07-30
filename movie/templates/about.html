@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Acerca de</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        
+        body {
+            background-color: #e6f4ea; /* verde claro */
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
-    <h1>Acerca de esta página</h1>
-    <p>Esta es la página about del proyecto de reseñas de películas.</p>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{% url 'home' %}">🎬 Movie Reviews</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+    <div class="about-container">
+        <h1 class="text-center">🎥 Sobre este sitio</h1>
+        <p class="mt-4">
+            Bienvenido a <strong>Movie Reviews</strong>, tu sitio para explorar, descubrir y disfrutar información sobre películas. Aquí puedes ver títulos, descripciones, imágenes y más.
+        </p>
+        <p>
+            Esta aplicación fue creada como parte de un taller de desarrollo web usando <strong>Django</strong> y <strong>Bootstrap</strong>.
+        </p>
+        <hr>
+        <p class="text-muted text-center">🌟 ¡Gracias por visitarnos! 🌟</p>
+    </div>
 </body>
 </html>
