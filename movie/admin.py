@@ -4,3 +4,4 @@ from .models import Movie
 
 admin.site.register(Movie)
 # user: pauli password: paulinavel
+

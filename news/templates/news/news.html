@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}NEWS{% endblock %}
+
+{% block content %}
+  <!-- Navbar -->
+ 
+
+  <!-- Contenido principal -->
+  <div class="container mt-4">
+    <h1 class="mb-4 text-center">📰 Últimas Noticias</h1>
+
+    <div class="row g-3">
+      {% for item in news %}
+        <div class="col-12">
+          <!-- Horizontal Card -->
+          <div class="card flex-row shadow-sm border-0 rounded-3">
+            <!-- Aquí puedes poner una imagen si luego agregas el campo en el modelo -->
+            <!-- <img src="/ruta/a/imagen.jpg" class="card-img-left" alt="Imagen de noticia"> -->
+            <div class="card-body">
+              <h5 class="card-title fw-bold text-primary">{{ item.headline }}</h5>
+              <p class="card-text text-muted">{{ item.body }}</p>
+              <p class="text-end">
+                <small class="text-muted">📅 {{ item.date }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-center text-muted">No hay noticias disponibles.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

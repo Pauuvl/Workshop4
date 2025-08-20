@@ -1,93 +1,78 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Películas</title>
-   <style>
-    body {
-      background-color: #e6f4ea; /* Verde muy claro */
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 40px 80px; /* márgenes izquierdo y derecho amplios */
-    }
+{% extends "base.html" %}
 
-    .movie-item {
-      background-color: #ffffff;
-      padding: 20px;
-      margin-bottom: 40px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
+{% block title %}Inicio - Movie Reviews{% endblock %}
 
-    .movie-item img {
-      display: block;
-      margin-top: 15px;
-      border-radius: 8px;
-    }
+{% block content %}
 
-    hr {
-      border: none;
-      border-top: 1px solid #ccc;
-      margin: 40px 0;
-    }
 
-    h2 {
-      margin-top: 0;
-    }
+  <!-- Título -->
+  <h1 class="mb-4 text-center">🎬 Lista de Películas, {{ name }}</h1>
 
-    p {
-      margin-bottom: 10px;
-    }
-  </style>
-
-</head>
-<body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="{% url 'home' %}">🎬 Movie Reviews</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About</a>
-        </li>
-      </ul>
+  <!-- Formulario de búsqueda con Bootstrap -->
+  <form method="get" class="row g-2 mb-4">
+    <div class="col-md-8"> 
+      <input type="text" name="searchMovie" class="form-control" placeholder="Buscar película..." value="{{ searchTerm }}">
     </div>
-  </div>
-</nav>
-    <h1>Lista de Películas, {{name}}</h1>
+    <div class="col-md-4">
+      <button type="submit" class="btn btn-green w-100">Buscar</button>
+    </div>
+  </form>
+  <!-- Botón para ir a Sign Up -->
 
-    <!-- Formulario de búsqueda -->
-    <form method="get">
-        <input type="text" name="searchMovie" placeholder="Buscar película..." value="{{ searchTerm }}">
-        <button type="submit">Buscar</button>
-    </form>
 
-    <hr>
-
-    <!-- Mostrar películas -->
+  <!-- Cards -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3 mt-4">
     {% for movie in movies %}
-        <div style="margin-bottom: 20px;">
-            <h2>{{ movie.title }}</h2>
-            <p>{{ movie.description }}</p>
+      <div class="col">
+        <div class="card h-100 shadow-sm border-0 rounded-3" style="max-width: 200px; margin:auto;">
+          <!-- Imagen -->
+          <div class="overflow-hidden">
+            {% if movie.image %}
+              <img src="{{ movie.image.url }}" class="card-img-top img-fluid" alt="{{ movie.title }}">
+            {% else %}
+              <img src="/media/movie/images/default.jpg" class="card-img-top img-fluid" alt="Imagen por defecto">
+            {% endif %}
+          </div>
+
+          <!-- Cuerpo de la tarjeta -->
+          <div class="card-body bg-light">
+            <h5 class="card-title fw-bold text-primary">{{ movie.title }}</h5>
+            <p class="card-text text-muted">{{ movie.description|truncatechars:120 }}</p>
+
+            <!-- Género y Año -->
+            <p>
+              <span class="badge bg-secondary">{{ movie.genre }}</span>
+            </p>
+            <p>
+              <small class="text-muted">📅 {{ movie.year }}</small>
+            </p>
 
             {% if movie.url %}
-                <p><a href="{{ movie.url }}" target="_blank">Ver más</a></p>
-            {% endif %}
+             <a href="{{ movie.url }}" target="_blank" class="btn btn-green btn-sm">Ver más</a>
 
-            {% if movie.image %}
-                <img src="{{ movie.image.url }}" alt="Imagen de {{ movie.title }}" width="200">
             {% endif %}
+          </div>
         </div>
-        <hr>
+      </div>
     {% empty %}
-        <p>No se encontraron películas.</p>
+      <p>No se encontraron películas.</p>
     {% endfor %}
-   
-</body>
-</html>
+  </div>
+
+  <!-- Sección de Gráficas -->
+  <div class="container mt-5">
+    <h2 class="text-center">📊 Estadísticas</h2>
+    <div class="row text-center">
+      <div class="col-md-6">
+        <h4>Películas por año</h4>
+        <img src="{% url 'movies_chart' %}?v=1" alt="Gráfica de películas por año" class="img-fluid border rounded shadow-sm">
+
+      </div>
+      <div class="col-md-6">
+        <h4>Películas por género (primer género)</h4>
+       <img src="{% url 'movies_chart_genre' %}?v=1" alt="Gráfica de películas por género" class="img-fluid border rounded shadow-sm">
+
+      </div>
+    </div>
+  </div>
+{% endblock %}
