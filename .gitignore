@@ -2,3 +2,6 @@
 __pycache__/
 db.sqlite3
 /media/
+openAI.env
+*.env
+.env

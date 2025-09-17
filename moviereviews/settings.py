@@ -1,15 +1,18 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+from dotenv import load_dotenv
+
+
+
+# Definir BASE_DIR primero
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Cargar variables de entorno
+load_dotenv(os.path.join(BASE_DIR, "openAI.env"))
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-a!t&nl3f4fe77egg8&s^k0r#c)g3^d-rnr*(uq0-()b63wyioh'
+load_dotenv('openAI.env')  # Carga desde archivo .env
+# Generate a new secret key: https://djecrety.ir/
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
